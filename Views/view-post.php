@@ -9,7 +9,10 @@
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.2/css/all.css" integrity="sha384-oS3vJWv+0UjzBfQzYUhtDYW+Pj2yciDJxpsK1OYPAYjqT085Qq/1cq5FLXAZQ7Ay" crossorigin="anonymous">
 
-    <title>Forum - <?= $categorie->getName(); ?></title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.css">
+    <script src="https://cdn.jsdelivr.net/simplemde/latest/simplemde.min.js"></script>
+
+    <title>Forum - <?= $post->getTitre(); ?></title>
 </head>
 <body>
 
@@ -24,15 +27,15 @@
             <li class="nav-item">
                 <a class="nav-link" href="?p=home">Accueil</a>
             </li>
-            <li class="nav-item dropdown active">
-                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+            <li class="nav-item dropdown">
+                <a class="nav-link dropdown-toggle active" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     Catégories
                 </a>
                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                     <?php foreach($categorieAll as $parentCategorie): ?>
                         <h6 class="dropdown-header"><?= $parentCategorie['parent']->getName(); ?></h6>
                         <?php foreach($parentCategorie['enfant'] as $sub_categorie): ?>
-                            <?php if($sub_categorie[0]->getId() == $_GET['category']): ?>
+                            <?php if($sub_categorie[0]->getId() == $post->getCateg()->getId()): ?>
                                 <a class="dropdown-item active" href="?p=forum&category=<?= $sub_categorie[0]->getId(); ?>"><?= $sub_categorie[0]->getName(); ?></a>
                             <?php else: ?>
                                 <a class="dropdown-item" href="?p=forum&category=<?= $sub_categorie[0]->getId(); ?>"><?= $sub_categorie[0]->getName(); ?></a>
@@ -59,47 +62,27 @@
     </div>
 </nav>
 <div class="jumbotron">
-    <h1 class="display-4"><?= $categorie->getName(); ?></h1><br /><br />
+    <h1 class="display-4"><?= $post->getTitre(); ?></h1><br /><br />
 </div>
 
 <div class="container">
     <nav aria-label="breadcrumb">
         <ol class="breadcrumb">
-            <li class="breadcrumb-item"><?= $categorie->getParent()->getName(); ?></li>
-            <li class="breadcrumb-item active" aria-current="page"><?= $categorie->getName(); ?></li>
+            <li class="breadcrumb-item"><?= $post->getCateg()->getParent()->getName(); ?></li>
+            <li class="breadcrumb-item active" aria-current="page"><?= $post->getCateg()->getName(); ?></li>
         </ol>
     </nav>
-    <?php if(isset($_SESSION['user'])){ ?>
-        <div class="offset-md-10">
-            <a class="btn btn-success" href="#" role="button">Ajouter un topic</a>
-        </div><br />
-    <?php } ?>
-    <?php if($listPost != null){ ?>
-        <table class="table table-striped table-bordered">
-            <thead>
-            <tr>
-                <th scope="col">Intitulé</th>
-                <th scope="col">Rédacteur</th>
-                <th scope="col">Date</th>
-            </tr>
-            </thead>
-            <tbody>
-                <?php foreach ($listPost as $unPost){ ?>
-                <tr>
-                    <th><a href="?p=forum&post=<?= $unPost->getId(); ?>"><?= $unPost->getTitre(); ?></a></th>
-                    <td><?= $unPost->getUser()->getPrenom() . " " . $unPost->getUser()->getNom(); ?></td>
-                    <td><?= $unPost->getDateFormat(); ?></td>
-                </tr>
-                <?php } ?>
-            </tbody>
-        </table><br /><br />
-    <?php } else { ?>
-        <center><h4>Aucun topics dans cette catégorie !</h4></center>
-    <?php } ?>
+
+    <form action="" method="post">
+        <textarea name="test"></textarea>
+        <input type="submit" value="envoyer" name="validtest">
+    </form>
+
+
+    <script>
+        var simplemde = new SimpleMDE();
+    </script>
 </div>
-
-
-
 
 <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>

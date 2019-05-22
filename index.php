@@ -8,6 +8,7 @@ use \Controllers\CategoryController;
 use \Controllers\LoginController;
 use \Controllers\RegisterController;
 use \Controllers\CompteController;
+use \Controllers\PostController;
 
 // Instanciation
 $homeController = new HomeController();
@@ -15,14 +16,18 @@ $categoryController = new CategoryController();
 $loginController = new LoginController();
 $registerController = new RegisterController();
 $compteController = new CompteController();
+$postController = new PostController();
+
 
 session_start();
 
 if(!isset($_GET['p']) || $_GET['p'] == "home"){
     $homeController->index();
 } else if($_GET['p'] == "forum"){
-    if(isset($_GET['category'])){
+    if(isset($_GET['category'])) {
         $categoryController->index();
+    } else if(isset($_GET['post'])) {
+        $postController->index();
     } else {
         header('Location: ?p=home');
     }

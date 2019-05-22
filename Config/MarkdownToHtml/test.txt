@@ -1,0 +1,11 @@
+// For Markdown to Html
+$my_html = Markdown::defaultTransform($my_text);
+
+
+// For Html to Markdown
+use League\HTMLToMarkdown\HtmlConverter;
+
+$converter = new HtmlConverter();
+
+$html = "<h3>Quick, to the Batpoles!</h3>";
+$markdown = $converter->convert($html);

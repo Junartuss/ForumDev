@@ -50,4 +50,12 @@ class PostRepository extends MainRepository {
         return end($listPost);
     }
 
+    public function searchPostId($idPost){
+        foreach ($this->createObjectDatabase() as $unPost){
+            if($unPost->getId() == $idPost){
+                return $unPost;
+            }
+        }
+    }
+
 }

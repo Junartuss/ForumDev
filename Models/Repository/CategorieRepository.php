@@ -63,7 +63,13 @@ class CategorieRepository extends MainRepository{
         $req->execute(array(':id' => $id));
         $result = $req->fetch();
 
-        $categ = new Categorie($result['id'], $result['name'], $result['created_at']);
+        $req = $this->connectDatabase()->prepare('SELECT * FROM categories WHERE id = :id');
+        $req->execute(array(':id' => $result['id_parent']));
+        $parent = $req->fetch();
+
+        $newParent = new Categorie($parent['id'], $parent['name'], $parent['created_at']);
+
+        $categ = new Categorie($result['id'], $result['name'], $result['created_at'], $newParent);
         return $categ;
     }
 }

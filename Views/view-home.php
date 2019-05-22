@@ -65,7 +65,7 @@
         <thead>
         <tr>
             <th scope="col">Intitulé</th>
-            <th></th>
+            <th>Nb Posts</th>
             <th scope="col">Dernier post</th>
         </tr>
         </thead>
