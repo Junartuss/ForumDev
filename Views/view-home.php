@@ -73,8 +73,14 @@
         <?php foreach($parentCategorie['enfant'] as $sub_categorie): ?>
                 <tr>
                     <th><a href="?p=forum&category=<?= $sub_categorie[0]->getId(); ?>"><?= $sub_categorie[0]->getName(); ?></a></th>
-                    <td style="text-align: center;">650</td>
-                    <td>Première rédaction</td>
+                    <td style="text-align: center;"><?= $sub_categorie[1]['NbPosts'] ?></td>
+                    <td>
+                        <?php if($sub_categorie[2] != false){ ?>
+                            <?= $sub_categorie[2]->getTitre(); ?>
+                        <?php  } else { ?>
+                            Aucun topic
+                        <?php } ?>
+                    </td>
                 </tr>
         <?php endforeach; ?>
         </tbody>

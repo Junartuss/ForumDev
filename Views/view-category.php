@@ -69,28 +69,31 @@
             <li class="breadcrumb-item active" aria-current="page"><?= $categorie->getName(); ?></li>
         </ol>
     </nav>
-
-    <table class="table table-striped table-bordered">
-        <thead>
-        <tr>
-            <th scope="col">Intitulé</th>
-            <th scope="col">Rédacteur</th>
-            <th scope="col">Date</th>
-        </tr>
-        </thead>
-        <tbody>
+    <div class="offset-md-10">
+        <a class="btn btn-success" href="#" role="button">Ajouter un topic</a>
+    </div><br />
+    <?php if($listPost != null){ ?>
+        <table class="table table-striped table-bordered">
+            <thead>
             <tr>
-                <th>Test 1</th>
-                <td>Paul</td>
-                <td>12/05/1998</td>
+                <th scope="col">Intitulé</th>
+                <th scope="col">Rédacteur</th>
+                <th scope="col">Date</th>
             </tr>
-            <tr>
-                <th>Test 1</th>
-                <td>Paul</td>
-                <td>12/05/1998</td>
-            </tr>
-        </tbody>
-    </table><br /><br />
+            </thead>
+            <tbody>
+                <?php foreach ($listPost as $unPost){ ?>
+                <tr>
+                    <th><a href="?page=forum&post=<?= $unPost->getId(); ?>"><?= $unPost->getTitre(); ?></a></th>
+                    <td><?= $unPost->getUser()->getPrenom() . " " . $unPost->getUser()->getNom(); ?></td>
+                    <td><?= $unPost->getDateFormat(); ?></td>
+                </tr>
+                <?php } ?>
+            </tbody>
+        </table><br /><br />
+    <?php } else { ?>
+        <center><h4>Aucun topics dans cette catégorie !</h4></center>
+    <?php } ?>
 </div>
 
 

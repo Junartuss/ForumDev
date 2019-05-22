@@ -73,4 +73,9 @@ class Post{
         $this->categorie = $categ;
         return $this;
     }
+
+    public function getDateFormat(){
+        $date = new \DateTime($this->date);
+        return $date->format('d/m/Y');
+    }
 }

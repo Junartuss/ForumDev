@@ -2,6 +2,8 @@
 
 namespace Models\Repository;
 use Models\Entity\Categorie;
+use Models\Entity\Post;
+use Models\Repository\PostRepository;
 
 class CategorieRepository extends MainRepository{
 
@@ -23,14 +25,22 @@ class CategorieRepository extends MainRepository{
             $compteur++;
         }
 
-
+        $postRepository = new PostRepository();
         foreach($listeCategorieParent as $k => $v){
             $sub_categories = $this->findAllByParent($v['parent']->getId());
             $compteur = 0;
             foreach($sub_categories as $uneCategorie){
                 $sub_categorie = new Categorie($uneCategorie['id'], $uneCategorie['name'], $uneCategorie['created_at'], $v['parent']);
+
                 $listeCategorieParent[$k]['enfant'][$compteur] = [];
                 array_push($listeCategorieParent[$k]['enfant'][$compteur], $sub_categorie);
+
+                $nbPost = $postRepository->getNbPostCategorie($sub_categorie->getId());
+                array_push($listeCategorieParent[$k]['enfant'][$compteur], $nbPost);
+
+                $lastPost = $postRepository->selectLastPostCategorie($sub_categorie->getId());
+                array_push($listeCategorieParent[$k]['enfant'][$compteur], $lastPost);
+
                 $compteur++;
             }
         }
